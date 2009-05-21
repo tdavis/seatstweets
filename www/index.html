@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Seats Tweets!</title>
+	<link rel="stylesheet" type="text/css" 
+		href="http://yui.yahooapis.com/2.7.0/build/reset/reset-min.css"> 
+	<link rel="stylesheet" href="media/css/master.css" type="text/css"
+		media="screen" charset="utf-8">
+</head>
+<body>
+	<div id="main">
+		<div id="pad">
+		<img src="media/img/h-what.png" class="h1" alt="What Is It?">
+		<p class="big">
+			<em>Seats Tweets</em> is a Twitter service which tweets current ticket 
+			prices to upcoming MLB, NBA, and NHL games (with more to come!)
+		</p>
+		<img src="media/img/h-how.png" class="h1" alt="How Does It Work?">
+		<ol>
+			<li>Follow one of our chatty birds</li>
+			<li>
+				Receive tweets like those under <em>Latest Tweets</em>
+			</li>
+			<li>
+				Visit the provided links to comparison shop for tickets to
+				the event
+			</li>
+		</ol>
+		<p>
+			That's it for now!
+		</p>
+		<img src="media/img/h-want.png" class="h1" alt="I Want It!">
+		<p>
+			Cool! Just click an icon below to start following the appropriate
+			bird!
+		</p>
+		<a href="http://twitter.com/ST_MLB">
+			<img src="media/img/bird-mlb.png" alt="MLB Tickets" class="bird">
+		</a>
+		<a href="http://twitter.com/ST_NBA">
+			<img src="media/img/bird-nba.png" alt="NBA Tickets" class="bird">
+		</a>
+		<a href="http://twitter.com/ST_NHL">
+			<img src="media/img/bird-nhl.png" alt="NHL Tickets" class="bird">
+		</a>
+		<hr>
+		<img src="media/img/h-per.png" class="h1" alt="Want results per-team?">
+		<p>
+			We'd initially planned to have an account per-team so you could get
+			only the results you wanted. Then twitter banned our accounts :(
+		</p>
+		<p>
+			Yet, hope is not lost: You can get per-team results and much more
+			via e-mail from <a href="http://inboxtix.com">inboxtix</a>!
+		</div>
+	</div>
+	<div id="sidebar">
+		<img src="media/img/h-latest.png" class="h1" alt="Latest Tweets">
+		<div id="tweets">
+			<img src="media/img/spinner.gif"><em>Loading tweets...</em>
+		</div>
+		<img src="media/img/h-steal.png" class="h1 steal" alt="Steal This App!">
+		<p>
+			<em>Seats Tweets</em> is not only a useful service, but serves as
+			an example of what can be created using the
+			<a href="http://ticketstumbler.com/">TicketStumbler</a>
+			<a href="http://ticketstumbler.com/api/docs/">API</a>. To that end,
+			we've open-sourced this app so that those interested in building
+			their own apps on top of <em>TicketStumbler</em> have an example to
+			go by. Go grab it on
+			<a href="http://github.com/nydusmedia/seatstweets/tree/master">
+			github</a>!
+		</p>
+		<p>
+			If you end up building something cool, be sure to
+			<a href="mailto:api@ticketstumbler.com?subject=I Made Something Cool!">
+				let us know!
+			</a>
+		</p>
+		<ul id="copyright">
+			<li>Design and graphics &copy;2009 by Ticket Stumbler Inc.</li>
+			<li>
+				All other
+				<a href="http://github.com/tdavis/seatstweets/">source code</a>
+				available under an
+				<a href="http://github.com/tdavis/seatstweets/blob/
+				67c117be73322525c45d0adff378efa601c2fa28/LICENSE">
+					MIT license
+				</a>
+				</li>
+		</ul>
+	</div>
+	<br style="clear:both">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"
+		type="text/javascript" charset="utf-8"></script>
+	<script src="media/js/twitter-1.12.2.min.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			var tpl = 
+				'<p>\
+					%text%\
+				</p>\
+				<span class="account">\
+					<a href="http://twitter.com/%user_screen_name%/statuses/%id%">\
+						%user_screen_name%\
+					</a>\
+				</span>\
+				<span class="when">%time%</span>';
+		
+			var tweetTimeout = function() {
+				this.innerHTML = '<em>Tweets failed to load :(</em>';
+			}
+		
+			var opts = {
+				id: 'ST_MLB',
+				count: 1,
+				ignoreReplies: true,
+				clearContents: true,
+				template: tpl			
+			};
+			
+			getTwitters('tweets', opts);
+			var opts2 = jQuery.extend(true, {}, opts);
+			opts2['clearContents'] = false;
+			opts2['id'] = 'ST_NBA';
+			getTwitters('tweets', opts2);
+			opts2['id'] = 'ST_NHL'
+			getTwitters('tweets', opts2);
+			
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: #8c7358 url(../img/pad-bg.png) repeat-y;
+	font-family: "Helvetica Neue", Helvetica, Geneva, sans-serif;
+}
+
+em {
+	font-style: italic;
+	font-weight: 200;
+}
+
+hr {
+	margin: 2em 1em;
+	margin-bottom: 2.5em;
+	border: 1px solid #8c7358;
+	border-bottom: 1px solid #f3f2e9;
+}
+
+.h1 {
+	margin-bottom: 1em;
+}
+
+.steal {
+	margin-top: 2em;
+}
+
+#main {
+	width: 676px;
+	float: left;
+	background: url(../img/background.png) top left no-repeat;
+	color: #fffef3;
+	font-size: 1em;
+}
+
+#main a {
+	color: #f3f2e9;
+	font-weight: bold;
+}
+
+#main ol {
+	margin-bottom: 1em;
+	padding: 0;
+	line-height: 1.4;
+}
+
+#main ol li {
+	list-style: decimal;
+}
+
+#main ul {
+	list-style: none;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#main ul li {
+	float: left;
+	padding: 0 5px;
+}
+
+#main .big {
+	font-size: 1.4em;
+	font-weight: bold;
+	line-height: 1.4;
+	margin-bottom: 1.5em;
+}
+
+#main .big em {
+	font-weight: bold;
+}
+
+#main p, #sidebar p {
+	margin-bottom: 2.5em;
+	line-height: 1.5;
+}
+
+#pad {
+	padding-top: 170px;
+	padding-left: 170px;
+	padding-right: 60px;
+	
+}
+
+#sidebar {
+	margin-top: 145px;
+	float: left;
+	width: 260px;
+}
+
+#tweets > ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	margin-left: 15px;
+}
+
+#tweets li {
+	background: url(../img/tweet-bg.png) no-repeat;
+	height: 123px;
+	position: relative;
+}
+
+#tweets p {
+	font-weight: 200;
+	font-size: 12px;
+	padding: 30px 35px 0px 35px;
+	margin: 0;
+	line-height: 1;
+}
+
+#sidebar > p {
+	color: #f3f2e9;
+	font-weight: 200;
+}
+
+#sidebar > p a {
+	color: #f89e1b;
+}
+
+#sidebar .account {
+	position: absolute;
+	display: block;
+	bottom: 0;
+	left: -20px;
+}
+
+#sidebar .account a {
+	color: #f89e1b;
+	font-size: 9px;
+}
+
+#tweets {
+	color: #b29e88;
+}
+
+#tweets > img {
+	margin-right: .5em;
+	/* Keeps header from moving on tweet load failure.
+	   Yes, I am that anal. */
+	margin-bottom: -2px;
+}
+
+#tweets .when {
+	position: absolute;
+	display: block;
+	bottom: 5px;
+	right: 0;
+	font-size: .7em;
+	color: #b29e88;
+	text-align: right;
+}
+
+#copyright {
+	border-top: 1px solid #f3f2e9;
+	padding-top: .5em;
+	margin-left: .5em;
+}
+
+#copyright li {
+	background: none;
+	color: #f3f2e9;
+	font-weight: 200;
+	font-size: .7em;
+	height: auto;
+	list-style: lower-roman;
+}
+
+#copyright a {
+	color: #f3f2e9;
+}
