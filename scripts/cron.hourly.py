@@ -4,12 +4,12 @@ import twitter, re, urllib
 from lxml import etree
 from mx.DateTime.Parser import DateTimeFromString, DateFromString
 from datetime import date, timedelta, datetime
-from django.conf import settings
 from optparse import OptionParser
 
 ############################## EDIT HERE ############################## 
 # Your API Token
 PARAMS = { 'token': 'TOKEN' }
+API_URL = 'http://ticketstumbler.com/api/1.0/rest'
 # Your bit.ly credentials
 BITLY = {
     'login': 'LOGIN',
@@ -40,7 +40,7 @@ def get_api_tree(ns, method, **params):
     """
     params.update(PARAMS)
     # Path
-    req = '%s/%s/%s.xml' % (settings.API_URL, ns, method)
+    req = '%s/%s/%s.xml' % (API_URL, ns, method)
     # Query parameters
     req = '?'.join((req,urllib.urlencode(params)))
     result = urllib.urlopen(req)
@@ -90,7 +90,7 @@ if __name__ == '__main__':
         tree = get_api_tree('event', 'search', **kwargs)
         for event in tree.iter('event'):
             when = DateTimeFromString(event.find('when').text)
-            if not find_date or when > find_date:
+            if not find_date or when >= find_date:
                 # We found one!
                 event_name = event.find('name').text
                 if opts.today:
