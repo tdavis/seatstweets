@@ -93,6 +93,8 @@ if __name__ == '__main__':
             if not find_date or when >= find_date:
                 # We found one!
                 event_name = event.find('name').text
+                if event_name[0:30] in status.text:
+                    continue
                 if opts.today:
                     when_day = 'TODAY!'
                 else:
@@ -116,5 +118,6 @@ if __name__ == '__main__':
                     event_name = event_name[0:hatchet]+'...'
                     tweet = mktweet(event_name, when_str, min_price, bitly_url)
                 api.PostUpdate(tweet)
-                break
+		if not opts.today:
+                    break
 
