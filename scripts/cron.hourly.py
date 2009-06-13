@@ -66,16 +66,7 @@ if __name__ == '__main__':
 
     for (name, cid) in TWITTER_ACCOUNTS:
         api = twitter.Api(username=name, password=TWITTER_PASSWORD)
-        find_date = None
         statuses = api.GetUserTimeline(name)
-        # Find the latest relevant tweet
-        for s in statuses:
-            txt = s.text
-            match = re.search(regex, txt)
-            if match:
-                status = s
-                find_date = DateTimeFromString(match.groups()[1])
-                break
         start = date.today()
         if opts.today:
             end = date.today() + timedelta(days=1)
@@ -89,6 +80,7 @@ if __name__ == '__main__':
         }
         tree = get_api_tree('event', 'search', **kwargs)
         for event in tree.iter('event'):
+            repeat = False
             when = DateTimeFromString(event.find('when').text)
             if not find_date or when >= find_date:
                 # We found one!
@@ -115,6 +107,15 @@ if __name__ == '__main__':
                     hatchet = -(len(tweet) - 137)
                     event_name = event_name[0:hatchet]+'...'
                     tweet = mktweet(event_name, when_str, min_price, bitly_url)
-                api.PostUpdate(tweet)
-                break
+                # Check for duplicate (easier way)
+                for s in statuses:
+                    txt = s.text
+                    if tweet == txt:
+                        repeat = True
+                        break
+                if not repeat:
+                    api.PostUpdate(tweet)
+                # Tweet all events for today at once
+                if not repeat and not opts.today:
+                    break
 
