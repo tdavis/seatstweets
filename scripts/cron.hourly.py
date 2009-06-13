@@ -82,42 +82,38 @@ if __name__ == '__main__':
         for event in tree.iter('event'):
             repeat = False
             when = DateTimeFromString(event.find('when').text)
-            if not find_date or when >= find_date:
-                # We found one!
-                event_name = event.find('name').text
-                if event_name[0:30] in status.text:
-                    continue
-                if opts.today:
-                    when_day = 'TODAY!'
-                else:
-                    when_day = when.strftime('on %A, %B %d')
-                when_time = when.strftime('at %I:%M %p')
-                when_str = ' '.join((when_day, when_time))
-                min_price = float(event.find('min_price').text)
-                # bit.ly time
-                kwargs = { 'longUrl': event.find('url').text }
-                kwargs.update(BITLY)
-                req = 'http://api.bit.ly/shorten?%s' % urllib.urlencode(kwargs)
-                # Okay, this is kinda lazy
-                result = eval(urllib.urlopen(req).read())
-                rr = result['results']
-                bitly_url = rr[rr.keys()[0]]['shortUrl']
-                # Tweet
+            event_name = event.find('name').text
+            if opts.today:
+                when_day = 'TODAY!'
+            else:
+                when_day = when.strftime('on %A, %B %d')
+            when_time = when.strftime('at %I:%M %p')
+            when_str = ' '.join((when_day, when_time))
+            min_price = float(event.find('min_price').text)
+            # bit.ly time
+            kwargs = { 'longUrl': event.find('url').text }
+            kwargs.update(BITLY)
+            req = 'http://api.bit.ly/shorten?%s' % urllib.urlencode(kwargs)
+            # Okay, this is kinda lazy
+            result = eval(urllib.urlopen(req).read())
+            rr = result['results']
+            bitly_url = rr[rr.keys()[0]]['shortUrl']
+            # Tweet
+            tweet = mktweet(event_name, when_str, min_price, bitly_url)
+            # Length check!
+            if len(tweet) > 140:
+                hatchet = -(len(tweet) - 137)
+                event_name = event_name[0:hatchet]+'...'
                 tweet = mktweet(event_name, when_str, min_price, bitly_url)
-                # Length check!
-                if len(tweet) > 140:
-                    hatchet = -(len(tweet) - 137)
-                    event_name = event_name[0:hatchet]+'...'
-                    tweet = mktweet(event_name, when_str, min_price, bitly_url)
-                # Check for duplicate (easier way)
-                for s in statuses:
-                    txt = s.text
-                    if tweet == txt:
-                        repeat = True
-                        break
-                if not repeat:
-                    api.PostUpdate(tweet)
-                # Tweet all events for today at once
-                if not repeat and not opts.today:
+            # Check for duplicate (easier way)
+            for s in statuses:
+                txt = s.text
+                if tweet == txt:
+                    repeat = True
                     break
+            if not repeat:
+                api.PostUpdate(tweet)
+            # Tweet all events for today at once
+            if not repeat and not opts.today:
+                break
 
